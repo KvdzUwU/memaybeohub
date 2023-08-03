@@ -1,2 +1,1 @@
-Discord: hutao_memamybeo
-Discord Server: discord.gg/jerrygang
+hutao_memamybeo   discord.gg/jerrygang

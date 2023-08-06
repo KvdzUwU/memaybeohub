@@ -63,7 +63,6 @@ function AntiAFK()
         end)
         warn("ANTI-AFK: ON")
 end
-AntiAFK()
 ---Get Pet
 function getPets()
     return data:GetData("Pets")
@@ -119,11 +118,15 @@ function getRollablePets()
     return fuseable
 end
 --check use to roll passive
+spawn(function()
+	while task.wait(30) do
 if selecteduse == "Token" then
     useToken = true
 else
     useToken = false
 end
+		end
+	end)
 
 --Pet To Fuse
 function getFuseablePets()
@@ -263,6 +266,7 @@ function initHiddenUnitsFolder()
             folder.Name = "HIDDEN_UNITS"
             folder.Parent = RS
         end
+end
 
 function init()
         getMobs()
@@ -551,20 +555,7 @@ G:AddDropdown(
     }
 )
 ---Auto Passive
---Auto Secret
-spawn(function()
-    while task.wait() do
-        if autoSecret then
-            local pets = getPets()
-            local pettoRoll = getRollablePets()
-            local expression = passivesToKeep[pet.Passive]
-            if not expression then
-                REMOTE.SetTargetPassiveCategory:FireServer(passiveMachine)
-                REMOTE.RollPassive:FireServer(pettoRoll, passiveMachine, useToken, slotPassive)  
-            end
-        end
-    end
-end)
+
 ---Star
 --Auto Fuse
 spawn(function()

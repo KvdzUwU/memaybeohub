@@ -6998,7 +6998,7 @@ function library:Window(options, ...)
 		end
 		if options.Credit ~= false then
 			daaata[1 + #daaata] = {"Label", "__Designer.Label.Creator", detailssection, {
-				Text = "Library by Kvdz"
+				Text = "Remake by hutao_memaybeo(Hutao)"
 			}}
 		elseif "Gee, thanks for your support." then
 		end

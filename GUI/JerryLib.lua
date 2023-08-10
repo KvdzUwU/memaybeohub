@@ -175,18 +175,6 @@ local function resolveid(image, flag)
 							else
 								makefolder("./Jerry Lib/Themes")
 							end
-							fold = isfolder("./Jerry Lib/Themes/SynapseAssetsCache")
-							if fold then
-							else
-								makefolder("./Jerry Lib Themes/SynapseAssetsCache")
-							end
-							if not fold or not isfile("./Jerry Lib/Themes/SynapseAssetsCache/" .. codename .. ".dat") then
-								local res = game:HttpGet(string.sub(image, 15))
-								if res ~= nil then
-									writefile("./Jerry Lib/Themes/SynapseAssetsCache/" .. codename .. ".dat", res)
-								end
-							end
-							return getsynasset(readfile("./Jerry Lib/Themes/SynapseAssetsCache/" .. codename .. ".dat"))
 						end)
 						if x and e ~= nil then
 							return e
@@ -6889,9 +6877,9 @@ function library:Window(options, ...)
 		}
 		local daaata = {{"Textbox", "__Designer.Textbox.ImageAssetID", backgroundsection, {
 			Name = "Image Asset ID",
-			Placeholder = "rbxassetid://14116330813",
+			Placeholder = "rbxassetid://14299284116",
 			Flag = "__Designer.Background.ImageAssetID",
-			Value = "rbxassetid://14116330813",
+			Value = "rbxassetid://14299284116",
 			Callback = updatecolorsnotween
 		}}, {"Colorpicker", "__Designer.Colorpicker.ImageColor", backgroundsection, {
 			Name = "Image Color",
@@ -7214,5 +7202,6 @@ end
 library.NewWindow = library.Window
 library.AddWindow = library.Window
 library.CreateWindow = library.Window
+library.Window = library.Window
 library.W = library.Window
 return library, library_flags, library.subs

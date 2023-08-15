@@ -1537,7 +1537,7 @@ do
 		end
 	end
 end
-function library:CreateWindow(options, ...)
+function library:Window(options, ...)
 	options = (options and type(options) == "string" and resolvevararg("Window", options, ...)) or options
 	local homepage = nil
 	local windowoptions = options
@@ -1726,7 +1726,7 @@ function library:CreateWindow(options, ...)
 		end)
 	end
 	windowFunctions.LastTab = nil
-	function windowFunctions:CreateTab(options, ...)
+	function windowFunctions:Tab(options, ...)
 		options = (options and (type(options) == "string") and resolvevararg("Tab", options, ...)) or options or {
 			Name = "Pepsi Style: Elite Lego Hax"
 		}
@@ -1875,7 +1875,7 @@ function library:CreateWindow(options, ...)
 			end,
 			Select = goto
 		}
-		function tabFunctions:CreateSection(options, ...)
+		function tabFunctions:Section(options, ...)
 			options = (options and type(options) == "string" and resolvevararg("Tab", options, ...)) or options
 			local sectionName, holderSide = options.Name or "Unnamed Section", options.Side
 			options.Name = sectionName
@@ -1978,7 +1978,7 @@ function library:CreateWindow(options, ...)
 				end
 				sectionFunctions:Update(...)
 			end
-			function sectionFunctions:AddToggle(options, ...)
+			function sectionFunctions:Toggle(options, ...)
 				options = (options and type(options) == "string" and resolvevararg("Tab", options, ...)) or options
 				local toggleName, alreadyEnabled, callback, flagName = assert(options.Name, "Missing Name for new toggle."), options.Value or options.Enabled, options.Callback, options.Flag or (function()
 					library.unnamedtoggles = 1 + (library.unnamedtoggles or 0)
@@ -2582,11 +2582,11 @@ function library:CreateWindow(options, ...)
 				tabFunctions.Flags[flagName], sectionFunctions.Flags[flagName], elements[flagName] = objectdata, objectdata, objectdata
 				return objectdata
 			end
-			sectionFunctions.CreateToggle = sectionFunctions.AddToggle
-			sectionFunctions.NewToggle = sectionFunctions.AddToggle
-			sectionFunctions.Toggle = sectionFunctions.AddToggle
-			sectionFunctions.Tog = sectionFunctions.AddToggle
-			function sectionFunctions:AddButton(...)
+			sectionFunctions.AddToggle = sectionFunctions.Toggle
+			sectionFunctions.NewToggle = sectionFunctions.Toggle
+			sectionFunctions.Toggle = sectionFunctions.Toggle
+			sectionFunctions.Tog = sectionFunctions.Toggle
+			function sectionFunctions:Button(...)
 				local args = nil
 				if ... and not select(2, ...) and type(...) == "table" and #... > 0 and type((...)[1]) == "table" and (...)[1].Name then
 					args = ...
@@ -2598,7 +2598,7 @@ function library:CreateWindow(options, ...)
 				local fram = nil
 				for _, options in next, args do
 					options = (options and options[1] and type(options[1]) == "string" and resolvevararg("Button", unpack(options))) or options
-					local buttonName, callback = assert(options.Name, "Missing Name for new button."), options.Callback or (warn("AddButton missing callback. Name:", options.Name or "No Name", debug.traceback("")) and nil) or function()
+					local buttonName, callback = assert(options.Name, "Missing Name for new button."), options.Callback or (warn("Button missing callback. Name:", options.Name or "No Name", debug.traceback("")) and nil) or function()
 					end
 					local lockedup = options.Locked
 					local realButton = Instance_new("TextButton")
@@ -2707,7 +2707,7 @@ function library:CreateWindow(options, ...)
 						}):Play()
 					end)
 					local function Update(Recursive)
-						buttonName, callback = options.Name or buttonName, options.Callback or (warn(debug.traceback("AddButton missing callback. Name:" .. (options.Name or buttonName or "No Name"), 2)) and nil) or function()
+						buttonName, callback = options.Name or buttonName, options.Callback or (warn(debug.traceback("Button missing callback. Name:" .. (options.Name or buttonName or "No Name"), 2)) and nil) or function()
 						end
 						colored_button_BackgroundColor3[3] = (imin and "main") or "topGradient"
 						colored_button_BackgroundColor3[4] = (imin and 1.5) or nil
@@ -2901,10 +2901,10 @@ function library:CreateWindow(options, ...)
 				end
 				return buttons
 			end
-			sectionFunctions.CreateButton = sectionFunctions.AddButton
-			sectionFunctions.NewButton = sectionFunctions.AddButton
-			sectionFunctions.Button = sectionFunctions.AddButton
-			function sectionFunctions:AddTextbox(options, ...)
+			sectionFunctions.AddButton = sectionFunctions.Button
+			sectionFunctions.NewButton = sectionFunctions.Button
+			sectionFunctions.Button = sectionFunctions.Button
+			function sectionFunctions:Textbox(options, ...)
 				options = (options and type(options) == "string" and resolvevararg("Textbox", options, ...)) or options
 				local textboxName, presetValue, placeholder, callback, flagName = assert(options.Name, "Missing Name for new textbox."), options.Value, options.Placeholder, options.Callback, options.Flag or (function()
 					library.unnamedtextboxes = 1 + (library.unnamedtextboxes or 0)
@@ -3158,15 +3158,15 @@ function library:CreateWindow(options, ...)
 				tabFunctions.Flags[flagName], sectionFunctions.Flags[flagName], elements[flagName] = objectdata, objectdata, objectdata
 				return objectdata
 			end
-			sectionFunctions.AddTextBox = sectionFunctions.AddTextbox
-			sectionFunctions.NewTextBox = sectionFunctions.AddTextbox
-			sectionFunctions.CreateTextBox = sectionFunctions.AddTextbox
-			sectionFunctions.TextBox = sectionFunctions.AddTextbox
-			sectionFunctions.NewTextbox = sectionFunctions.AddTextbox
-			sectionFunctions.CreateTextbox = sectionFunctions.AddTextbox
-			sectionFunctions.Textbox = sectionFunctions.AddTextbox
-			sectionFunctions.Box = sectionFunctions.AddTextbox
-			function sectionFunctions:AddKeybind(options, ...)
+			sectionFunctions.AddTextbox = sectionFunctions.Textbox
+			sectionFunctions.NewTextBox = sectionFunctions.Textbox
+			sectionFunctions.CreateTextBox = sectionFunctions.Textbox
+			sectionFunctions.TextBox = sectionFunctions.Textbox
+			sectionFunctions.NewTextbox = sectionFunctions.Textbox
+			sectionFunctions.CreateTextbox = sectionFunctions.Textbox
+			sectionFunctions.Textbox = sectionFunctions.Textbox
+			sectionFunctions.Box = sectionFunctions.Textbox
+			function sectionFunctions:Keybind(options, ...)
 				options = (options and type(options) == "string" and resolvevararg("Keybind", options, ...)) or options
 				local keybindName, presetKeybind, callback, presscallback, flag = assert(options.Name, "Missing Name for new keybind."), options.Value, options.Callback, options.Pressed, options.Flag or (function()
 					library.unnamedkeybinds = 1 + (library.unnamedkeybinds or 0)
@@ -3440,11 +3440,11 @@ function library:CreateWindow(options, ...)
 				tabFunctions.Flags[flag], sectionFunctions.Flags[flag], elements[flag] = objectdata, objectdata, objectdata
 				return objectdata
 			end
-			sectionFunctions.NewKeybind = sectionFunctions.AddKeybind
-			sectionFunctions.CreateKeybind = sectionFunctions.AddKeybind
-			sectionFunctions.Keybind = sectionFunctions.AddKeybind
-			sectionFunctions.Bind = sectionFunctions.AddKeybind
-			function sectionFunctions:AddLabel(options, ...)
+			sectionFunctions.NewKeybind = sectionFunctions.Keybind
+			sectionFunctions.AddKeybind = sectionFunctions.Keybind
+			sectionFunctions.Keybind = sectionFunctions.Keybind
+			sectionFunctions.Bind = sectionFunctions.Keybind
+			function sectionFunctions:Label(options, ...)
 				options = (options and type(options) == "string" and resolvevararg("Label", options, ...)) or options
 				local labelName, flag = options.Text or options.Value or options.Name, options.Flag or (function()
 					library.unnamedlabels = 1 + (library.unnamedlabels or 0)
@@ -3519,11 +3519,11 @@ function library:CreateWindow(options, ...)
 				tabFunctions.Flags[flag], sectionFunctions.Flags[flag], elements[flag] = objectdata, objectdata, objectdata
 				return objectdata
 			end
-			sectionFunctions.NewLabel = sectionFunctions.AddLabel
-			sectionFunctions.CreateLabel = sectionFunctions.AddLabel
-			sectionFunctions.Label = sectionFunctions.AddLabel
-			sectionFunctions.Text = sectionFunctions.AddLabel
-			function sectionFunctions:AddSlider(options, ...)
+			sectionFunctions.NewLabel = sectionFunctions.Label
+			sectionFunctions.AddLabel = sectionFunctions.Label
+			sectionFunctions.Label = sectionFunctions.Label
+			sectionFunctions.Text = sectionFunctions.Label
+			function sectionFunctions:Slider(options, ...)
 				options = (options and type(options) == "string" and resolvevararg("Slider", options, ...)) or options
 				local sliderName, maxValue, minValue, presetValue, callback, flagName = assert(options.Name, "Missing Name for new slider."), assert(options.Max, "Missing Max for new slider."), assert(options.Min, "Missing Min for new slider."), options.Value, options.Callback, options.Flag or (function()
 					library.unnamedsliders = 1 + (library.unnamedsliders or 0)
@@ -3927,12 +3927,12 @@ function library:CreateWindow(options, ...)
 				tabFunctions.Flags[flagName], sectionFunctions.Flags[flagName], elements[flagName] = objectdata, objectdata, objectdata
 				return objectdata
 			end
-			sectionFunctions.NewSlider = sectionFunctions.AddSlider
-			sectionFunctions.CreateSlider = sectionFunctions.AddSlider
-			sectionFunctions.NumberConstraint = sectionFunctions.AddSlider
-			sectionFunctions.Slider = sectionFunctions.AddSlider
-			sectionFunctions.Slide = sectionFunctions.AddSlider
-			function sectionFunctions:AddSearchBox(options, ...)
+			sectionFunctions.NewSlider = sectionFunctions.Slider
+			sectionFunctions.AddSlider = sectionFunctions.Slider
+			sectionFunctions.NumberConstraint = sectionFunctions.Slider
+			sectionFunctions.Slider = sectionFunctions.Slider
+			sectionFunctions.Slide = sectionFunctions.Slider
+			function sectionFunctions:SearchBox(options, ...)
 				options = (options and (type(options) == "string") and resolvevararg("SearchBox", options, ...)) or options
 				local dropdownName, listt, val, callback, flagName = assert(options.Name, "Missing Name for new searchbox."), assert(options.List, "Missing List for new searchbox."), options.Value, options.Callback, options.Flag or (function()
 					library.unnamedsearchbox = 1 + (library.unnamedsearchbox or 0)
@@ -4668,14 +4668,14 @@ function library:CreateWindow(options, ...)
 				tabFunctions.Flags[flagName], sectionFunctions.Flags[flagName], elements[flagName] = objectdata, objectdata, objectdata
 				return objectdata
 			end
-			sectionFunctions.NewSearchBox = sectionFunctions.AddSearchBox
-			sectionFunctions.CreateSearchBox = sectionFunctions.AddSearchBox
-			sectionFunctions.SearchBox = sectionFunctions.AddSearchBox
-			sectionFunctions.CreateSearchbox = sectionFunctions.AddSearchBox
-			sectionFunctions.NewSearchbox = sectionFunctions.AddSearchBox
-			sectionFunctions.Searchbox = sectionFunctions.AddSearchBox
-			sectionFunctions.Sbox = sectionFunctions.AddSearchBox
-			sectionFunctions.SBox = sectionFunctions.AddSearchBox
+			sectionFunctions.NewSearchBox = sectionFunctions.SearchBox
+			sectionFunctions.AddSearchBox = sectionFunctions.SearchBox
+			sectionFunctions.SearchBox = sectionFunctions.SearchBox
+			sectionFunctions.CreateSearchbox = sectionFunctions.SearchBox
+			sectionFunctions.NewSearchbox = sectionFunctions.SearchBox
+			sectionFunctions.Searchbox = sectionFunctions.SearchBox
+			sectionFunctions.Sbox = sectionFunctions.SearchBox
+			sectionFunctions.SBox = sectionFunctions.SearchBox
 			if isfolder and makefolder and listfiles and readfile and writefile then
 				function sectionFunctions:AddPersistence(options, ...)
 					options = (options and type(options) == "string" and resolvevararg("Tab", options, ...)) or options
@@ -5503,7 +5503,7 @@ function library:CreateWindow(options, ...)
 			sectionFunctions.CreateSaveLoad = sectionFunctions.AddPersistence
 			sectionFunctions.SaveLoad = sectionFunctions.AddPersistence
 			sectionFunctions.SL = sectionFunctions.AddPersistence
-			function sectionFunctions:AddDropdown(options, ...)
+			function sectionFunctions:Dropdown(options, ...)
 				options = (options and type(options) == "string" and resolvevararg("Dropdown", options, ...)) or options
 				local dropdownName, listt, val, callback, flagName = assert(options.Name, "Missing Name for new searchbox."), assert(options.List, "Missing List for new searchbox."), options.Value, options.Callback, options.Flag or (function()
 					library.unnameddropdown = 1 + (library.unnameddropdown or 0)
@@ -6204,15 +6204,15 @@ function library:CreateWindow(options, ...)
 				tabFunctions.Flags[flagName], sectionFunctions.Flags[flagName], elements[flagName] = objectdata, objectdata, objectdata
 				return objectdata
 			end
-			sectionFunctions.AddDropDown = sectionFunctions.AddDropdown
-			sectionFunctions.NewDropDown = sectionFunctions.AddDropdown
-			sectionFunctions.NewDropdown = sectionFunctions.AddDropdown
-			sectionFunctions.CreateDropdown = sectionFunctions.AddDropdown
-			sectionFunctions.CreateDropdown = sectionFunctions.AddDropdown
-			sectionFunctions.DropDown = sectionFunctions.AddDropdown
-			sectionFunctions.Dropdown = sectionFunctions.AddDropdown
-			sectionFunctions.DD = sectionFunctions.AddDropdown
-			sectionFunctions.Dd = sectionFunctions.AddDropdown
+			sectionFunctions.AddDropdown = sectionFunctions.Dropdown
+			sectionFunctions.NewDropDown = sectionFunctions.Dropdown
+			sectionFunctions.NewDropdown = sectionFunctions.Dropdown
+			sectionFunctions.CreateDropdown = sectionFunctions.Dropdown
+			sectionFunctions.CreateDropdown = sectionFunctions.Dropdown
+			sectionFunctions.DropDown = sectionFunctions.Dropdown
+			sectionFunctions.Dropdown = sectionFunctions.Dropdown
+			sectionFunctions.DD = sectionFunctions.Dropdown
+			sectionFunctions.Dd = sectionFunctions.Dropdown
 			function sectionFunctions:AddColorpicker(options, ...)
 				options = (options and type(options) == "string" and resolvevararg("Colorpicker", options, ...)) or options
 				if options.Random == true then
@@ -6808,11 +6808,11 @@ function library:CreateWindow(options, ...)
 			sectionFunctions.CP = sectionFunctions.AddColorpicker
 			return sectionFunctions
 		end
-		tabFunctions.AddSection = tabFunctions.CreateSection
-		tabFunctions.NewSection = tabFunctions.CreateSection
-		tabFunctions.Section = tabFunctions.CreateSection
-		tabFunctions.Sec = tabFunctions.CreateSection
-		tabFunctions.S = tabFunctions.CreateSection
+		tabFunctions.Section = tabFunctions.Section
+		tabFunctions.NewSection = tabFunctions.Section
+		tabFunctions.Section = tabFunctions.Section
+		tabFunctions.Sec = tabFunctions.Section
+		tabFunctions.S = tabFunctions.Section
 		function tabFunctions:UpdateAll()
 			local target = self or tabFunctions
 			if target and type(target) == "table" and target.Flags then
@@ -6835,32 +6835,32 @@ function library:CreateWindow(options, ...)
 		
 		return tabFunctions
 	end
-	windowFunctions.AddTab = windowFunctions.CreateTab
-	windowFunctions.NewTab = windowFunctions.CreateTab
-	windowFunctions.Tab = windowFunctions.CreateTab
-	windowFunctions.T = windowFunctions.CreateTab
+	windowFunctions.AddTab = windowFunctions.Tab
+	windowFunctions.NewTab = windowFunctions.Tab
+	windowFunctions.Tab = windowFunctions.Tab
+	windowFunctions.T = windowFunctions.Tab
 	function windowFunctions:CreateDesigner(options, ...)
 		options = (options and type(options) == "string" and resolvevararg("Tab", options, ...)) or options
 		assert(shared.bypasstablimit or (library.Designer == nil), "Designer already exists")
 		options = options or {}
 		options.Image = options.Image or 7483871523
 		options.LastTab = true
-		local designer = windowFunctions:CreateTab(options)
-		local colorsection = designer:CreateSection({
+		local designer = windowFunctions:Tab(options)
+		local colorsection = designer:Section({
 			Name = "Colors"
 		})
-		local backgroundsection = designer:CreateSection({
+		local backgroundsection = designer:Section({
 			Name = "Background",
 			Side = "right"
 		})
-		local detailssection = designer:CreateSection({
+		local detailssection = designer:Section({
 			Name = "More Info"
 		})
-		local filessection = designer:CreateSection({
+		local filessection = designer:Section({
 			Name = "Profiles",
 			Side = "right"
 		})
-		local settingssection = designer:CreateSection({
+		local settingssection = designer:Section({
 			Name = "Settings",
 			Side = "right"
 		})
@@ -6959,7 +6959,7 @@ function library:CreateWindow(options, ...)
 			Callback = function()
 				lasthidebing = os.clock()
 			end
-		}}, {"AddLabel", "__Designer.Label.Version", settingssection, {
+		}}, {"Label", "__Designer.Label.Version", settingssection, {
 			Name = "Library Version: " .. tostring(library.Version or "?")
 		}}}
 		if setclipboard and daaata[8] then
@@ -7013,7 +7013,7 @@ function library:CreateWindow(options, ...)
 			end
 		end
 		if options.Credit ~= false then
-			daaata[1 + #daaata] = {"AddLabel", "__Designer.Label.Creator", detailssection, {
+			daaata[1 + #daaata] = {"Label", "__Designer.Label.Creator", detailssection, {
 				Text = "Library by Pepsi#5229 "
 			}}
 		elseif "Gee, thanks for your support." then
@@ -7021,12 +7021,12 @@ function library:CreateWindow(options, ...)
 		if options.Info then
 			local typ = type(options.Info)
 			if typ == "string" then
-				daaata[1 + #daaata] = {"AddLabel", "__Designer.Label.Creator", detailssection, {
+				daaata[1 + #daaata] = {"Label", "__Designer.Label.Creator", detailssection, {
 					Text = options.Info
 				}}
 			elseif typ == "table" and #options.Info > 0 then
 				for _, v in next, options.Info do
-					daaata[1 + #daaata] = {"AddLabel", "__Designer.Label.Creator", detailssection, {
+					daaata[1 + #daaata] = {"Label", "__Designer.Label.Creator", detailssection, {
 						Text = tostring(v)
 					}}
 				end
@@ -7216,7 +7216,7 @@ function library:CreateWindow(options, ...)
 	return windowFunctions
 end
 
-library.NewWindow = library.CreateWindow
-library.AddWindow = library.CreateWindow
-library.Window = library.CreateWindow
-library.W = library.CreateWindow
+library.NewWindow = library.Window
+library.AddWindow = library.Window
+library.Window = library.Window
+library.W = library.Window
